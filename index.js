@@ -29,7 +29,17 @@ async function run() {
             const result = await calendarCollection.insertOne(event);
             res.send(result);
         });
-
+        app.put('/events/:id', async (req, res) => {
+            const id = req.params.id;
+            const updatedEvent = req.body;
+      
+            const result = await calendarCollection.updateOne(
+              { _id: new ObjectId(id) },
+              { $set: updatedEvent }
+            );
+      
+            res.send(result);
+          });
 
         console.log("MongoDB connected and endpoints ready ✅");
 
