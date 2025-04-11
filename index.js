@@ -32,14 +32,19 @@ async function run() {
         app.put('/events/:id', async (req, res) => {
             const id = req.params.id;
             const updatedEvent = req.body;
-      
+
             const result = await calendarCollection.updateOne(
-              { _id: new ObjectId(id) },
-              { $set: updatedEvent }
+                { _id: new ObjectId(id) },
+                { $set: updatedEvent }
             );
-      
+
             res.send(result);
-          });
+        });
+        app.delete('/events/:id', async (req, res) => {
+            const id = req.params.id;
+            const result = await calendarCollection.deleteOne({ _id: new ObjectId(id) });
+            res.send(result);
+        });
 
         console.log("MongoDB connected and endpoints ready ✅");
 
