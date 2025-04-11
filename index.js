@@ -20,7 +20,7 @@ const client = new MongoClient(uri, {
 
 async function run() {
     try {
-        const calendarCollection = client.db("calendar").collection("events");
+        const calendarCollection = client.db("Calendar").collection("events");
         app.get('/events', async (req, res) => {
             const events = await calendarCollection.find().toArray();
             res.send(events);
@@ -56,7 +56,7 @@ async function run() {
 run().catch(console.dir);
 
 app.get('/', (req, res) => {
-    res.send('Calendar is marking ✅');
+    res.send('Calendar is marking');
 });
 
 app.listen(port, () => {
