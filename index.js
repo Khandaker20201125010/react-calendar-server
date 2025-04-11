@@ -11,33 +11,38 @@ const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.texsw4y.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`;
 
 const client = new MongoClient(uri, {
-  serverApi: {
-    version: ServerApiVersion.v1,
-    strict: true,
-    deprecationErrors: true,
-  }
+    serverApi: {
+        version: ServerApiVersion.v1,
+        strict: true,
+        deprecationErrors: true,
+    }
 });
 
 async function run() {
-  try {
-    app.get('/events', async (req, res) => {
-        const events = await calendarCollection.find().toArray();
-        res.send(events);
-      });
-  
+    try {
+        app.get('/events', async (req, res) => {
+            const events = await calendarCollection.find().toArray();
+            res.send(events);
+        });
+        app.post('/events', async (req, res) => {
+            const event = req.body;
+            const result = await calendarCollection.insertOne(event);
+            res.send(result);
+        });
 
-    console.log("MongoDB connected and endpoints ready ✅");
 
-  } finally {
-  }
+        console.log("MongoDB connected and endpoints ready ✅");
+
+    } finally {
+    }
 }
 
 run().catch(console.dir);
 
 app.get('/', (req, res) => {
-  res.send('Calendar is marking ✅');
+    res.send('Calendar is marking ✅');
 });
 
 app.listen(port, () => {
-  console.log(`Calendar is marking on ${port}`);
+    console.log(`Calendar is marking on ${port}`);
 });
