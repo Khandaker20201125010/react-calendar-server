@@ -20,6 +20,7 @@ const client = new MongoClient(uri, {
 
 async function run() {
     try {
+        const calendarCollection = client.db("calendar").collection("events");
         app.get('/events', async (req, res) => {
             const events = await calendarCollection.find().toArray();
             res.send(events);
