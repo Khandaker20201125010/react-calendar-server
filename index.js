@@ -48,6 +48,9 @@ async function run() {
             const id = req.params.id;
             const updatedEvent = req.body;
 
+            // ✅ Remove _id from the update object
+            delete updatedEvent._id;
+
             const result = await calendarCollection.updateOne(
                 { _id: new ObjectId(id) },
                 { $set: updatedEvent }
@@ -55,13 +58,14 @@ async function run() {
 
             res.send(result);
         });
+
         app.delete('/events/:id', async (req, res) => {
             const id = req.params.id;
             const result = await calendarCollection.deleteOne({ _id: new ObjectId(id) });
             res.send(result);
         });
 
-        console.log("MongoDB connected and endpoints ready ✅");
+        console.log("MongoDB connected and endpoints ready ");
 
     } finally {
     }
