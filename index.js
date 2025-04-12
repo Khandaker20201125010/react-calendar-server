@@ -21,6 +21,20 @@ const client = new MongoClient(uri, {
 async function run() {
     try {
         const calendarCollection = client.db("Calendar").collection("events");
+        const goalsCollection = client.db("Calendar").collection("goals");
+        const tasksCollection = client.db("Calendar").collection("tasks");
+
+
+        app.get('/goals', async (req, res) => {
+            const goals = await goalsCollection.find().toArray();
+            res.send(goals);
+        });
+
+        app.get('/goals/:id/tasks', async (req, res) => {
+            const tasks = await tasksCollection.find({ goalId: req.params.id }).toArray();
+            res.send(tasks);
+        });
+
         app.get('/events', async (req, res) => {
             const events = await calendarCollection.find().toArray();
             res.send(events);
